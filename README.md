@@ -1,2 +1,0 @@
-# aicodes
-A*,BFS,DFS

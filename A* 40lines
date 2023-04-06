@@ -1,0 +1,62 @@
+from queue import PriorityQueue
+
+goal_state = (1,2,3,5,0,6,7,8,4)
+
+def h(state):
+    distance = 0
+    for i in range(9):
+        if state[i] != 0:
+            distance += abs(i // 3 - state[i] // 3) + abs(i % 3 - state[i] % 3)
+    return distance
+
+def solve(initial_state):
+    
+    pq = PriorityQueue()
+    pq.put((0, initial_state))
+    
+    parent = {initial_state: None}
+    
+
+    visited = set([initial_state])
+    
+    while not pq.empty():
+        
+        current_state = pq.get()[1]
+        
+        if current_state == goal_state:
+            path = []
+            while current_state is not None:
+                path.append(current_state)
+                current_state = parent[current_state]
+            return path[::-1]
+        
+        zero_index = current_state.index(0)
+        for move in [-3, -1, 1, 3]:
+            new_index = zero_index + move
+            if 0 <= new_index < 9 and (new_index // 3 == zero_index // 3 or new_index % 3 == zero_index % 3):
+                new_state = list(current_state)
+                new_state[zero_index], new_state[new_index] = new_state[new_index], new_state[zero_index]
+                new_state = tuple(new_state)
+                if new_state not in visited:
+                    cost = h(new_state) + len(parent)
+                    pq.put((cost, new_state))
+                    parent[new_state] = current_state
+                    visited.add(new_state)
+    
+    return None
+
+initial_state = tuple(map(int, input("Enter the initial state as a space-separated matrix: ").split()))
+
+if sorted(initial_state) != list(sorted(goal_state)):
+    print("Invalid input!")
+else:
+    path = solve(initial_state)
+    if path is not None:
+        print("The solution is:")
+        for state in path:
+            print(state[0:3])
+            print(state[3:6])
+            print(state[6:9])
+            print()
+    else:
+        print("No solution found.")

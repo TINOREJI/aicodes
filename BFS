@@ -1,0 +1,51 @@
+graph = {
+  '5' : ['3','7'],
+  '3' : ['2', '4'],
+  '7' : ['8'],
+  '2' : [],
+  '4' : ['8'],
+  '8' : []
+}
+
+#BFS
+visited = []
+open = [] #queue
+
+def BFS(visited,graph,node) :
+  open.append(node)
+  visited.append(node)
+
+  while open :
+    m = open.pop(0)
+    #print(m)
+
+    for neighbor in graph[m] :
+      
+      if neighbor not in visited :
+        open.append(neighbor)
+        visited.append(neighbor)
+
+  print(visited)
+
+print("BFS traversal: ")
+BFS(visited,graph,'5')
+
+
+
+
+
+#DFS
+visited = []
+
+def DFS(visited, graph, node):
+    if node not in visited:
+        #print(node)
+        visited.append(node)
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
+
+    print(visited)
+
+
+print("DFS traversal: ")
+DFS(visited, graph, '5')

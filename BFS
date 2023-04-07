@@ -29,23 +29,3 @@ def BFS(visited,graph,node) :
 
 print("BFS traversal: ")
 BFS(visited,graph,'5')
-
-
-
-
-
-#DFS
-visited = []
-
-def DFS(visited, graph, node):
-    if node not in visited:
-        #print(node)
-        visited.append(node)
-        for neighbour in graph[node]:
-            dfs(visited, graph, neighbour)
-
-    print(visited)
-
-
-print("DFS traversal: ")
-DFS(visited, graph, '5')
